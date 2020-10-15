@@ -245,16 +245,16 @@ let studentUser = {
   name: 'Steve',
   age: 12,
   location: 'Orlando, New York',
-  previousBackground: 'Smoking cRaCK',
-  className: 'DS42069',
-  favSubjects: 'WHatever gIveS me Crack cocaine',
+  previousBackground: 'Creating rainbows',
+  className: 'WD40',
+  favSubjects: 'Redux',
   grade: 70
 }
 let instructorUser = {
   name: 'Paul',
-  age: 9,
+  age: 32,
   location: 'Florida, Texas',
-  specialty: 'scrubbing toilets',
+  specialty: 'Being bestfriends with everyone',
   favLanguage: 'Espanol',
   catchPhrase: 'Kachow'
 }
