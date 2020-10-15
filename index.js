@@ -150,6 +150,9 @@ class Instructor extends Lambdasian {
   grade(student, subject) {
     return `${student.name} receives a perfect score on ${subject}`;
   }
+  setGrade(student, val) { // val is a number between -100 to 100. negative numbers will reduce studet's grade. 
+    return student.grade + val;
+  }
 }
 
 /*
@@ -173,6 +176,7 @@ class Student extends Lambdasian {
     this.previousBackground = attributes.previousBackground;
     this.className = attributes.className;
     this.favSubjects = attributes.favSubjects;
+    this.grade = Math.floor(Math.random() * 101);  // this.grade is not passed through attribute but it could be
   }
   listSubjects() {
     let str = 'Loving ';
