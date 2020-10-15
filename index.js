@@ -179,8 +179,8 @@ class Student extends Lambdasian {
     this.grade = attributes.grade;
   }
   listSubjects() {
-    let str = 'Loving ';
-    for(let i in this.favSubjects) {
+    let str = `${this.name} is loving `;
+    for(let i = 0; i < this.favSubjects.length; i++) {
       if (i === this.favSubjects.length - 1) {
         str += `${this.favSubjects[i]}!`;
       } else {
@@ -247,7 +247,7 @@ let studentUser = {
   location: 'Orlando, New York',
   previousBackground: 'Creating rainbows',
   className: 'WD40',
-  favSubjects: 'Redux',
+  favSubjects: ['Redux', 'JS', 'Ruby', 'Python', 'Clojure'],
   grade: 70
 }
 let instructorUser = {
@@ -265,6 +265,11 @@ instructor.setGrade(student, Math.floor(Math.random() * (10 + 10) + 1) - 10);
 // student.graduate(instructor);
 console.log(student, instructor);
 console.log(student.graduate(instructor), `Grade: ${student.grade}`);
+
+
+
+
+console.log(student.listSubjects());
 
 
 ///////// END OF CHALLENGE /////////
