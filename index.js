@@ -150,8 +150,8 @@ class Instructor extends Lambdasian {
   grade(student, subject) {
     return `${student.name} receives a perfect score on ${subject}`;
   }
-  setGrade(student, val) { // val is a number between -100 to 100. negative numbers will reduce studet's grade. 
-    return student.grade + val;
+  setGrade(student, val) {  
+    return student.grade += val;
   }
 }
 
@@ -176,7 +176,7 @@ class Student extends Lambdasian {
     this.previousBackground = attributes.previousBackground;
     this.className = attributes.className;
     this.favSubjects = attributes.favSubjects;
-    this.grade = Math.floor(Math.random() * 101);  // this.grade is not passed through attribute but it could be
+    this.grade = attributes.grade;
   }
   listSubjects() {
     let str = 'Loving ';
@@ -194,6 +194,13 @@ class Student extends Lambdasian {
   }
   sprintChallenge(subject) {
     return `${this.name} has begun sprint challenge on ${subject}`;
+  }
+  graduate(instructor){ //checks to see if student is able to graduate
+    if (this.grade >= 70) {
+      return `${this.name} is ready to graduate!`;
+    } else {
+      instructor.setGrade(this, Math.floor(Math.random() * (10 + 10) + 1) - 10); //if an instructor is assigned, they will grade another assignment 
+    }
   }
 }
 
@@ -227,11 +234,38 @@ class ProjectManager extends Instructor {
 /*
   STRETCH PROBLEM (no tests!)
     - Extend the functionality of the Student by adding a prop called grade and setting it equal to a number between 1-100.
-    - Now that our students have a grade build out a method on the Instructor (this will be used by _BOTH_ instructors and PM's) that will randomly add or subtract points to a student's grade. _Math.random_ will help.
+    - Now that our students have a grade build out a method on the Instructor (this will be used by _BOTH_ instructors and PM's) that will randomly add or subtract points to a student's grade. _Math.random_ will help. //--> instructorObj#.setGrade(studentObj#, Math.floor(Math.random() * (100 - (-100) + 1)) + (- 100))
     - Add a graduate method to a student.
       + This method, when called, will check the grade of the student and see if they're ready to graduate from Lambda School
       + If the student's grade is above a 70% let them graduate! Otherwise go back to grading their assignments to increase their score.
 */
+
+//making sure the stretch problem was implemented correctly
+let studentUser = {
+  name: 'Steve',
+  age: 12,
+  location: 'Orlando, New York',
+  previousBackground: 'Smoking cRaCK',
+  className: 'DS42069',
+  favSubjects: 'WHatever gIveS me Crack cocaine',
+  grade: 70
+}
+let instructorUser = {
+  name: 'Paul',
+  age: 9,
+  location: 'Florida, Texas',
+  specialty: 'scrubbing toilets',
+  favLanguage: 'Espanol',
+  catchPhrase: 'Kachow'
+}
+let student = new Student(studentUser);
+let instructor = new Instructor(instructorUser);
+
+instructor.setGrade(student, Math.floor(Math.random() * (10 + 10) + 1) - 10);
+// student.graduate(instructor);
+console.log(student, instructor);
+console.log(student.graduate(instructor), `Grade: ${student.grade}`);
+
 
 ///////// END OF CHALLENGE /////////
 ///////// END OF CHALLENGE /////////
