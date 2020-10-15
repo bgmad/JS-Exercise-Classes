@@ -41,7 +41,24 @@ class Airplane {
 */
 
 class Person {
-
+  constructor(_name, _age) {
+    this.name = _name;
+    this.age = _age;
+    this.stomach = [];
+  }
+  eat(someFood) {
+    if (this.stomach.length < 10) {
+      return this.stomach.push(someFood);
+    } else {
+      return null;
+    }
+  }
+  poop() {
+    return this.stomach = [];
+  }
+  toString() {
+    return `${this.name}, ${this.age}`;
+  }
 }
 
 /*
@@ -59,7 +76,28 @@ class Person {
 */
 
 class Car {
-
+  constructor(_model, _milesPerGallon) {
+    this.model = _model;
+    this.milesPerGallon = _milesPerGallon;
+    this.tank = 0;
+    this.odometer = 0; 
+  }
+  fill(gallons) {
+    this.tank += gallons;
+  }
+  drive(distance) {
+    let fuelUsage = distance / this.milesPerGallon;
+    if (this.tank - fuelUsage > 0) {
+      this.tank -= fuelUsage;
+      this.odometer += distance;
+    } else {
+      let missingFuel = Math.abs(this.tank - fuelUsage);
+      let missingDistance = missingFuel * this.milesPerGallon;
+      this.tank = 0;
+      this.odometer += distance - missingDistance;
+      return `I ran out of fuel at ${this.odometer} miles`;
+    }
+  }
 }
 
 /*
@@ -75,7 +113,14 @@ class Car {
         + {name} and {location} of course come from the instance's own properties.
 */
 class Lambdasian {
-
+  constructor(attributes) {
+    this.name = attributes.name;
+    this.age = attributes.age;
+    this.location = attributes.location;
+  }
+  speak() {
+    return `Hello my name is ${this.name}, I am from ${this.location}`;
+  }
 }
 
 /*
@@ -92,8 +137,22 @@ class Lambdasian {
         + `demo` receives a `subject` string as an argument and returns the phrase 'Today we are learning about {subject}' where subject is the param passed in.
         + `grade` receives a `student` object and a `subject` string as arguments and returns '{student.name} receives a perfect score on {subject}'
 */
-class Instructor {
-
+class Instructor extends Lambdasian {
+  constructor (attributes){
+    super(attributes);
+    this.specialty = attributes.specialty;
+    this.favLanguage = attributes.favLanguage;
+    this.catchPhrase = attributes.catchPhrase; 
+  }
+  demo(subject) {
+    return `Today we are learning about ${subject}`;
+  }
+  grade(student, subject) {
+    return `${student.name} receives a perfect score on ${subject}`;
+  }
+  setGrade(student, val) {  
+    return student.grade += val;
+  }
 }
 
 /*
@@ -111,8 +170,38 @@ class Instructor {
         + `PRAssignment` a method that receives a subject as an argument and returns `student.name has submitted a PR for {subject}`
         + `sprintChallenge` similar to PRAssignment but returns `student.name has begun sprint challenge on {subject}`
 */
-class Student {
-
+class Student extends Lambdasian {
+  constructor(attributes) {
+    super(attributes);
+    this.previousBackground = attributes.previousBackground;
+    this.className = attributes.className;
+    this.favSubjects = attributes.favSubjects;
+    this.grade = attributes.grade;
+  }
+  listSubjects() {
+    let str = `${this.name} is loving `;
+    for(let i = 0; i < this.favSubjects.length; i++) {
+      if (i === this.favSubjects.length - 1) {
+        str += `${this.favSubjects[i]}!`;
+      } else {
+        str += `${this.favSubjects[i]}, `;
+      }
+    }
+    return str;
+  }
+  PRAssignment(subject) {
+    return `${this.name} has submitted a PR for ${subject}`;
+  }
+  sprintChallenge(subject) {
+    return `${this.name} has begun sprint challenge on ${subject}`;
+  }
+  graduate(instructor){ //checks to see if student is able to graduate
+    if (this.grade >= 70) {
+      return `${this.name} is ready to graduate!`;
+    } else {
+      instructor.setGrade(this, Math.floor(Math.random() * (10 + 10) + 1) - 10); //if an instructor is assigned, they will grade another assignment 
+    }
+  }
 }
 
 /*
@@ -128,18 +217,60 @@ class Student {
         + `standUp` a method that takes in a slack channel and returns `{name} announces to {channel}, @channel standy times!`
         + `debugsCode` a method that takes in a student object and a subject and returns `{name} debugs {student.name}'s code on {subject}`
 */
-class ProjectManager {
-
+class ProjectManager extends Instructor {
+  constructor(attributes) {
+    super(attributes);
+    this.gradClassName = attributes.gradClassName;
+    this.favInstructor = attributes.favInstructor;
+  }
+  standUp(channel) {
+    return `${this.name} announces to ${channel}, @channel standy times!`;
+  }
+  debugsCode(student, subject) {
+    return `${this.name} debugs ${student.name}'s code on ${subject}`;
+  }
 }
 
 /*
   STRETCH PROBLEM (no tests!)
     - Extend the functionality of the Student by adding a prop called grade and setting it equal to a number between 1-100.
-    - Now that our students have a grade build out a method on the Instructor (this will be used by _BOTH_ instructors and PM's) that will randomly add or subtract points to a student's grade. _Math.random_ will help.
+    - Now that our students have a grade build out a method on the Instructor (this will be used by _BOTH_ instructors and PM's) that will randomly add or subtract points to a student's grade. _Math.random_ will help. //--> instructorObj#.setGrade(studentObj#, Math.floor(Math.random() * (100 - (-100) + 1)) + (- 100))
     - Add a graduate method to a student.
       + This method, when called, will check the grade of the student and see if they're ready to graduate from Lambda School
       + If the student's grade is above a 70% let them graduate! Otherwise go back to grading their assignments to increase their score.
 */
+
+//making sure the stretch problem was implemented correctly
+let studentUser = {
+  name: 'Steve',
+  age: 12,
+  location: 'Orlando, New York',
+  previousBackground: 'Creating rainbows',
+  className: 'WD40',
+  favSubjects: ['Redux', 'JS', 'Ruby', 'Python', 'Clojure'],
+  grade: 70
+}
+let instructorUser = {
+  name: 'Paul',
+  age: 32,
+  location: 'Florida, Texas',
+  specialty: 'Being bestfriends with everyone',
+  favLanguage: 'Espanol',
+  catchPhrase: 'Kachow'
+}
+let student = new Student(studentUser);
+let instructor = new Instructor(instructorUser);
+
+instructor.setGrade(student, Math.floor(Math.random() * (10 + 10) + 1) - 10);
+// student.graduate(instructor);
+console.log(student, instructor);
+console.log(student.graduate(instructor), `Grade: ${student.grade}`);
+
+
+
+
+console.log(student.listSubjects());
+
 
 ///////// END OF CHALLENGE /////////
 ///////// END OF CHALLENGE /////////
